@@ -21,3 +21,11 @@
 ### Codage.
 
 ### Produit fini.
+
+## Capteur de compteur d'eau
+
+https://github.com/jomjol/AI-on-the-edge-device?tab=readme-ov-file
+
+### Matériel.
+
+- [ ] ESPCAM
