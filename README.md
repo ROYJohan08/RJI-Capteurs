@@ -13,7 +13,7 @@
 - [X] [Boitier 18650](https://fr.aliexpress.com/item/1005009467208586.html?spm=a2g0o.order_list.order_list_main.35.60df5e5bb6WsYy&gatewayAdapt=glo2fra).
 
 ### Schéma de montage.
-
+![Schematics.](https://github.com/ROYJohan08/RJI-Capteurs/blob/main/capteurLumi%C3%A8re/3D/Schematics.png?raw=true)
 ### Schéma d'assemblage.
 
 ### Modele 3D.
