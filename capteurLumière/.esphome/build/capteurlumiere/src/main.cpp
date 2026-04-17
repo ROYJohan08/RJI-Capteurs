@@ -95,7 +95,7 @@ void setup() {
   wifi_wificomponent->set_use_address("192.168.1.84");
   {
   wifi::WiFiAP wifi_wifiap = wifi::WiFiAP();
-  wifi_wifiap.set_ssid("ROY_WIFI_EXTERIEUR");
+  wifi_wifiap.set_ssid("ROY_WIFI_Exterieur");
   wifi_wifiap.set_password("0100101001");
   wifi_wifiap.set_manual_ip(wifi::ManualIP{
       .static_ip = network::IPAddress(192, 168, 1, 84),
