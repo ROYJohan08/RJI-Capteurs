@@ -1,0 +1,138 @@
+esphome:
+  name: capteurlumiere
+
+esp8266:
+  board: nodemcuv2
+
+# Enable Home Assistant API
+api:
+  password: "${{ secrets.HIGH_PASSWORD }}"
+
+ota:
+  password: "${{ secrets.HIGH }}"
+
+captive_portal:
+web_server:
+  port: 80
+  js_include: "./v2/www.js"
+  js_url: ""
+  version: 2
+  
+spi:
+  clk_pin: GPIO14
+  mosi_pin: GPIO13
+  miso_pin: GPIO12
+
+rc522_spi:
+  cs_pin: GPIO2
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: Alarme IP Address
+    ssid:
+      name: Alarme Connected SSID
+
+text:
+  - platform: template
+    name : TAG
+    id : TAG
+    mode : text
+    optimistic: true
+    min_length: 0
+    max_length: 100
+
+binary_sensor:
+  - platform: rc522
+    uid: 80-B4-85-89
+    id: "JRTAG"
+    on_press:
+      then:
+        - text.set:
+            id: TAG
+            value: 'JRTAG'
+    on_release:
+      then:
+        - text.set:
+            id: TAG
+            value: ''
+    
+  - platform: rc522
+    uid: B4-8F-1D-DC
+    id: "CRTAG"
+    on_press:
+      then:
+        - text.set:
+            id: TAG
+            value: 'CRTAG'
+    on_release:
+      then:
+        - text.set:
+            id: TAG
+            value: ''
+
+  - platform: gpio
+    pin: D8
+    name: "button_green"
+    device_class: light
+  - platform: gpio
+    pin: GPIO3
+    name: "button_blue"
+    filters :
+      - invert:
+    device_class: light
+  - platform: gpio
+    pin: GPIO1
+    name: "button_red"
+    filters :
+      - invert:
+    device_class: light
+switch:
+  - platform: gpio
+    pin: D1
+    name: "light_green"
+    id: gpio_d1
+    inverted: true
+  - platform: gpio
+    pin: D2
+    name: "light_blue"
+    id: gpio_d2
+    inverted: true
+  - platform: gpio
+    pin: D3
+    name: "light_red"
+    id: gpio_d3
+    inverted: true
+
+wifi:
+  networks:
+    - ssid: ROY_WIFI_SAM
+      password: "${{ secrets.LOW_PASSWORD }}"
+    - ssid: ROY_WIFI_SALON
+      password: "${{ secrets.LOW_PASSWORD }}"
+    - ssid: ROY_WIFI_COULOIR
+      password: "${{ secrets.LOW_PASSWORD }}"
+    - ssid: ROY_WIFI_CUISINE
+      password: "${{ secrets.LOW_PASSWORD }}"
+  manual_ip:
+    static_ip: 192.168.1.84
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+  on_connect:
+    - switch.turn_on: gpio_d3
+    - delay: 1s
+    - switch.turn_on: gpio_d2
+    - delay: 1s
+    - switch.turn_off: gpio_d3
+    - switch.turn_on: gpio_d1
+    - delay: 1s
+    - switch.turn_off: gpio_d2
+    - delay: 1s
+    - switch.turn_off: gpio_d1
+  on_disconnect:
+    - switch.turn_on: gpio_d3
+    - switch.turn_on: gpio_d2
+    - switch.turn_on: gpio_d1
+  ap:
+    ssid: "Alarme Fallback Hotspot"
+    password: "${{ secrets.LOW_PASSWORD }}"
