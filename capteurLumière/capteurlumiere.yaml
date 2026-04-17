@@ -1,37 +1,57 @@
 esphome:
   name: capteurlumiere
+  # Ce bloc ordonne à l'ESP de s'endormir dès que les données sont envoyées
+  on_boot:
+    priority: -10
+    then:
+      - delay: 30s # Laisse 10s pour se connecter au Wi-Fi et envoyer les mesures
+      - deep_sleep.enter: deep_sleep_1
 
 esp8266:
   board: nodemcuv2
 
-# Enable Home Assistant API
+# Configuration du bus I2C
+i2c:
+  sda: D1
+  scl: D2
+  scan: true
+
+# Mode Sommeil Profond (1 minute)
+deep_sleep:
+  id: deep_sleep_1
+  sleep_duration: 60s
+
 api:
   password: !secret high_password
 
 ota:
   password: !secret high_password
 
-captive_portal:
-web_server:
-  port: 80
-  js_include: "./v2/www.js"
-  js_url: ""
-  version: 2
-
 wifi:
   networks:
-    - ssid: !secret wifi_ssid1
-      password: !secret low_password
-    - ssid: !secret wifi_ssid2
-      password: !secret low_password
-    - ssid: !secret wifi_ssid3
-      password: !secret low_password
-    - ssid: !secret wifi_ssid4
+    - ssid: !secret wifi_exterieur
       password: !secret low_password
   manual_ip:
     static_ip: 192.168.1.84
     gateway: 192.168.1.1
     subnet: 255.255.255.0
+  fast_connect: true # Crucial pour économiser la batterie
   ap:
     ssid: "Alarme Fallback Hotspot"
-    password: "!secret low_password"
+    password: !secret low_password
+
+sensor:
+  - platform: bh1750
+    name: "light"
+    address: 0x23
+    update_interval: 1s # On mesure une seule fois au démarrage
+    unit_of_measurement: lx
+
+  - platform: adc
+    pin: A0
+    name: "battery"
+    update_interval: 1s # On mesure une seule fois au démarrage
+    unit_of_measurement: "V"
+    filters:
+      - multiply: 10.2
+    icon: "mdi:battery"

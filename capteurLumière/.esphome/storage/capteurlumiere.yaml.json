@@ -1,0 +1,32 @@
+{
+  "storage_version": 1,
+  "name": "capteurlumiere",
+  "friendly_name": null,
+  "comment": null,
+  "esphome_version": "2024.2.2",
+  "src_version": 1,
+  "address": "192.168.1.84",
+  "web_port": null,
+  "esp_platform": "ESP8266",
+  "build_path": ".\\.esphome\\build/capteurlumiere",
+  "firmware_bin_path": ".\\.esphome\\build/capteurlumiere\\.pioenvs\\capteurlumiere\\firmware.bin",
+  "loaded_integrations": [
+    "adc",
+    "api",
+    "bh1750",
+    "deep_sleep",
+    "esp8266",
+    "esphome",
+    "i2c",
+    "md5",
+    "mdns",
+    "network",
+    "ota",
+    "preferences",
+    "sensor",
+    "socket",
+    "voltage_sampler",
+    "wifi"
+  ],
+  "no_mdns": false
+}
