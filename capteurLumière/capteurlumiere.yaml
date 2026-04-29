@@ -32,7 +32,7 @@ wifi:
     - ssid: !secret wifi_exterieur
       password: !secret low_password
   manual_ip:
-    static_ip: 192.168.1.84
+    static_ip: !secret ip
     gateway: 192.168.1.1
     subnet: 255.255.255.0
   fast_connect: true # Crucial pour économiser la batterie
